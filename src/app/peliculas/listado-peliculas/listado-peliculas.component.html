@@ -1,5 +1,3 @@
-<button (click)="agregarPelicula()">Agregar pelicula</button>
-
 <app-listado-generico [listado]="peliculas">
 
     <!-- <ng-container vacio> 
@@ -7,26 +5,27 @@
     </ng-container> -->
 
     <ng-container contenido> <!-- ng-container -> agrupa elementos sin crear HTML adicional  -->
+       <div class="peliculas-contenedor">
         @for(pelicula of peliculas; track $index){
-            <div class="contenedor-pelicula">
-                <div style="display: flex; flex-direction: row; gap:10px;">
-                    <div>
-                        @if(pelicula.poster){
-                        <img [src]="pelicula.poster" width="169" height="250" /> 
-                        }@else{
-                            <img src="default.jpg" width="169" height="250" />  
-                        }
-                    
-                    </div>
-                    <div>
-                        <p>{{$index}}) Pelicula: {{pelicula.titulo}}</p>
-                        <p>Fecha de lanzamiento: {{pelicula.fechaLanzamiento | date:"dd-MMMM-yyyy"}}</p>
-                        <p>Precio: {{pelicula.precio | currency}}</p>
-                        <button (click)="remover(pelicula)">Remover</button>
-                    </div>
+           <div class="pelicula-contenedor">
+                <a>
+                    @if(pelicula.poster){
+                        <img [src]="pelicula.poster" width="169" height="250">
+                    }@else {
+                         <img src="default.jpg" width="169" height="250">
+                    }
+                </a>
+                <p>
+                    <a>{{pelicula.titulo}}</a>
+                </p>
+                <div>
+                    <a mat-flat-button>Editar</a>
+                    <button mat-flat-button type="button" class="warn">Borrar</button>
                 </div>
-            </div>    
+            </div>
         }
+
+       </div>
     </ng-container>
 </app-listado-generico>
 

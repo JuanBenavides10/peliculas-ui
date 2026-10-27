@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ListadoPeliculasComponent } from './peliculas/listado-peliculas/listado-peliculas.component';
+import { MenuComponent } from './compartidos/componentes/menu/menu.component';
 
 @Component({
   selector: 'app-root', //Nombre del componente
-  imports: [ListadoPeliculasComponent], //Importaciones necesarias para el componente
+  imports: [ListadoPeliculasComponent, MenuComponent], //Importaciones de otros componentes
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -56,5 +57,7 @@ ngOnInit(): void { //Método que se ejecuta al iniciar el componente
   peliculasEnCines!: any[];
   peliculasProximosEstrenos!: any[];
  
+  procesarVoto(voto: number){
+  }
 
 }

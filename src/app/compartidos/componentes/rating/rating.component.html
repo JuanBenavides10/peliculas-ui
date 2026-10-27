@@ -1,0 +1,15 @@
+@for (item of maximoRating; track $index){
+    <!-- 
+      (mouseenter) cuando pasamos el mouse por encima
+      (mouseleave) cuando sacamos el mouse de encima
+      [ngClass] permite agregar o quitar clases de css dependiendo de una condición, iluminado es clase de css
+    -->
+
+    <mat-icon 
+    (mouseenter)="manejarMouseEnter($index)" 
+    (mouseleave)="manejarMouseLeave()" 
+    (click)="manejarClick($index)"
+    [ngClass]="{iluminado: ratingSeleccionado > $index}" 
+    
+    >star</mat-icon>
+}

@@ -1,13 +1,18 @@
 <!-- <input type="file" style="display: none;" #cargadorArchivos >
 <button (click)="cargadorArchivos.click()">Cargar Archivos</button> -->
 
+<app-menu></app-menu>
 
-<h2>En Cines</h2>
+<!-- <app-rating [maximoRating]="5" (votado)="procesarVoto($event)"></app-rating> -->
 
-<app-listado-peliculas [peliculas]="peliculasEnCines"></app-listado-peliculas>
+<div class="contenedor">
 
+    <h2>En Cines</h2>
 
-<h2>Proximos Estrenos</h2>
+    <app-listado-peliculas [peliculas]="peliculasEnCines"></app-listado-peliculas>
 
-<app-listado-peliculas [peliculas]="peliculasProximosEstrenos"></app-listado-peliculas>
+    <h2>Proximos Estrenos</h2>
 
+    <app-listado-peliculas [peliculas]="peliculasProximosEstrenos"></app-listado-peliculas>
+
+</div>
