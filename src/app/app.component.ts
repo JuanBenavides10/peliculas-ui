@@ -1,17 +1,17 @@
-import { CurrencyPipe, DatePipe, NgOptimizedImage, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ListadoPeliculasComponent } from './peliculas/listado-peliculas/listado-peliculas.component';
 
 @Component({
   selector: 'app-root', //Nombre del componente
-  imports: [DatePipe, UpperCasePipe, CurrencyPipe,NgOptimizedImage], //Importaciones necesarias para el componente
+  imports: [ListadoPeliculasComponent], //Importaciones necesarias para el componente
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{ //clase principal del componente
-
-  ngOnInit(): void { //Método que se ejecuta al iniciar el componente
+export class AppComponent implements OnInit{ //clase principal del componente, implementa la interfaz OnInit para poder usar el método ngOnInit
+  
+ngOnInit(): void { //Método que se ejecuta al iniciar el componente
     setTimeout(() => {
-      this.peliculas = [{
+      this.peliculasEnCines = [{
             titulo: 'Inside Out 2',
             fechaLanzamiento: new Date(),
             precio: 1400.99,
@@ -22,8 +22,11 @@ export class AppComponent implements OnInit{ //clase principal del componente
             fechaLanzamiento: new Date('2016-05-03'),
             precio: 300.99,
             poster: 'https://upload.wikimedia.org/wikipedia/en/7/73/Moana_2_poster.jpg'
-          },
-          {
+          }];
+
+      //this.peliculasEnCines = [];
+
+      this.peliculasProximosEstrenos = [{
             titulo: 'Bad Boys: Ride or Die',
             fechaLanzamiento: new Date('2016-05-03'),
             precio: 300.99,
@@ -47,11 +50,11 @@ export class AppComponent implements OnInit{ //clase principal del componente
             precio: 300.99,
             poster: 'https://th.bing.com/th/id/OIP.MaNXIRFpA1zK232AFPoWHgHaK-?w=203&h=301&c=7&r=0&o=7&pid=1.7&rm=3'
           }];
-    }, 3000); //2s
+    }, 500); //medio segundo
   }
 
-  title = 'angular-peliculas';
-
-  peliculas!: any[]; //any nos dice que puese ser cualquier tipo de dato, en este caso es un arreglo de objetos
+  peliculasEnCines!: any[];
+  peliculasProximosEstrenos!: any[];
+ 
 
 }

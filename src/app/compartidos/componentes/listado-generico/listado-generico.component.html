@@ -1,0 +1,22 @@
+@if(!listado){
+   <div #cargando> <!-- variable de referencia -->
+      <ng-content select="[cargando]"></ng-content> <!-- ng-content -> proyecta contenido desde un componente padre -->
+   </div>
+   @if(!cargando.innerHTML.trim()){
+    <img src="loading.gif" />
+   }
+}
+@else if(listado.length == 0){
+   <div #vacio> <!-- variable de referencia -->
+        <ng-content select="[vacio]"></ng-content> <!-- ng-content -> proyecta contenido desde un componente padre -->
+   </div>
+   @if(!vacio.innerHTML.trim()){ <!-- Una cadena vacía se considera false -->
+    <div>
+      <p>No hay elementos para mostrar</p>
+    </div>
+   }
+}
+@else {
+ <ng-content select="[contenido]"></ng-content> <!-- ng-content -> proyecta contenido desde un componente padre -->
+}
+
