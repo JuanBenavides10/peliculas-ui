@@ -14,7 +14,7 @@ export class EditarCineComponent {
   id!: number
 
 
-  cine: CineDTO = { id: 1, nombre: 'Cinepolis' }
+  cine: CineDTO = { id: 1, nombre: 'CinePlanet', latitud: -11.978699637154758, longitud: -77.01082050797496}
 
   guardarCambios(cine: CineCreacionDTO) {
     console.log('editar cine', cine);
