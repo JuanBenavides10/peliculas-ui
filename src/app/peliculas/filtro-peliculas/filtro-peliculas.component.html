@@ -24,6 +24,8 @@
     </div>
 
      <div>
-       <button mat-flat-button class="warn">Limpiar</button>
+       <button mat-flat-button class="warn" (click)="limpiar()">Limpiar</button>
     </div>
 </form>
+
+<app-listado-peliculas [peliculas]="peliculas"></app-listado-peliculas>
