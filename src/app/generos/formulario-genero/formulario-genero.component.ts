@@ -30,7 +30,7 @@ posteoFormulario = new EventEmitter<GeneroCreacionDTO>(); // EventEmitter -> emi
  private formbuilder = inject(FormBuilder);
 
   form = this.formbuilder.group({
-    nombre: ['',{validators: [Validators.required,primeraLetraMayuscula()]}]
+    nombre: ['',{validators: [Validators.required,primeraLetraMayuscula(), Validators.maxLength(50)]}]
 
   })
 
@@ -40,6 +40,11 @@ posteoFormulario = new EventEmitter<GeneroCreacionDTO>(); // EventEmitter -> emi
     if(nombre.hasError('required')){
       return "El campo nombre es requerido"
     }
+
+     if(nombre.hasError('maxlength')){
+      return `El campo nombre no puede tener mas de ${nombre.getError('maxlength').requiredLength} caracteres`;
+    }
+
     if(nombre.hasError('primeraLetraMayuscula')){
       return nombre.getError('primeraLetraMayuscula').mensaje;
     }
