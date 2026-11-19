@@ -1,20 +1,41 @@
-import { Component, Input, numberAttribute } from '@angular/core';
+import { Component, inject, Input, numberAttribute, OnInit } from '@angular/core';
 import { ActorCreacionDTO, ActorDTO } from '../actores';
 import { FormularioActoresComponent } from '../formulario-actores/formulario-actores.component';
+import { ActoresService } from '../actores.service';
+import { Router } from '@angular/router';
+import { extraerErrores } from '../../compartidos/funciones/extraerErrores';
+import { MostrarErroresComponent } from '../../compartidos/componentes/mostrar-errores/mostrar-errores.component';
+import { CargandoComponent } from '../../compartidos/componentes/cargando/cargando.component';
 
 @Component({
   selector: 'app-editar-actor',
-  imports: [FormularioActoresComponent],
+  imports: [FormularioActoresComponent, MostrarErroresComponent, CargandoComponent],
   templateUrl: './editar-actor.component.html',
   styleUrl: './editar-actor.component.css'
 })
-export class EditarActorComponent {
-  @Input({transform: numberAttribute }) //transform -> convierte un tipo de dato a otro, en este caso convertimos a number
-  id!: number
+export class EditarActorComponent implements OnInit {
+  ngOnInit(): void {
+    this.actoresService.obtenerporId(this.id).subscribe(actor => {
+      this.actor = actor;
+    });
+  }
 
-  actor: ActorDTO = {id:1, nombre: 'Juanito Alcachofa', fechaNacimiento: new Date(1999,0,1), foto: 'https://th.bing.com/th/id/OIP.92t1PPSF7mJ3v2OKvIOgNgHaEK?w=288&h=180&c=7&r=0&o=7&pid=1.7&rm=3'}
+  @Input({ transform: numberAttribute }) //transform -> convierte un tipo de dato a otro, en este caso convertimos a number
+  id!: number
+  actor?: ActorDTO;
+  actoresService = inject(ActoresService);
+  router = inject(Router);
+  errores: string[] = [];
 
   guardarCambios(actor: ActorCreacionDTO) {
-    console.log('Editando el actor', actor);
+    this.actoresService.actualizar(this.id, actor).subscribe({
+      next: () => {
+        this.router.navigate(['/actores'])
+      },
+      error: err =>{
+        const errores = extraerErrores(err);
+        this.errores = errores;
+      }
+    });
   }
 }
