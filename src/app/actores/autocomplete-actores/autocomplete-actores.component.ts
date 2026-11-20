@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { actorAutoCompleteDTO } from '../actores';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ActoresService } from '../actores.service';
 
 @Component({
   selector: 'app-autocomplete-actores',
@@ -14,18 +15,25 @@ import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-
   templateUrl: './autocomplete-actores.component.html',
   styleUrl: './autocomplete-actores.component.css'
 })
-export class AutocompleteActoresComponent {
+export class AutocompleteActoresComponent implements OnInit {
+  ngOnInit(): void {
+    this.control.valueChanges.subscribe(valor => {
+      if (typeof valor === 'string' && valor) {
+        this.actoresService.obtenerPorNombre(valor).subscribe(actores => {
+          this.actores = actores;
+        });
+      }
+    });
+  }
 
   control = new FormControl(); //Control de formulario
 
-  actores: actorAutoCompleteDTO[] = [
-    { id: 1, nombre: 'Tom Holland', personaje: '', foto: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/TomHolland-byPhilipRomano.jpg/250px-TomHolland-byPhilipRomano.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail' },
-    { id: 2, nombre: 'Tom Hanks', personaje: '', foto: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/TomHanksPrincEdw031223_%2811_of_41%29_%28cropped%29.jpg/250px-TomHanksPrincEdw031223_%2811_of_41%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail' },
-    { id: 3, nombre: 'Samuel L. Jackson', personaje: '', foto: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/SamuelLJackson.jpg/250px-SamuelLJackson.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail' }
-  ]
+  actores: actorAutoCompleteDTO[] = [];
 
-  @Input({required: true})
+  @Input({ required: true })
   actoresSeleccionados: actorAutoCompleteDTO[] = [];
+
+  actoresService = inject(ActoresService);
 
   columnasAMostrar = ['imagen', 'nombre', 'personaje', 'acciones'];
 
@@ -43,7 +51,7 @@ export class AutocompleteActoresComponent {
   finalizarArrastre(event: CdkDragDrop<any[]>) {
     const indicePrevio = this.actoresSeleccionados.findIndex(actor => actor === event.item.data);
     moveItemInArray(this.actoresSeleccionados, indicePrevio, event.currentIndex);
-     this.table.renderRows();
+    this.table.renderRows();
   }
 
   eliminar(actor: actorAutoCompleteDTO) {
